@@ -1,0 +1,57 @@
+kind: pipeline
+name: lint-build-frontend
+type: docker
+
+trigger:
+  event:
+    - pull_request
+  branch:
+    - main
+
+steps:
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    settings:
+      restore: true
+      mount:
+        - ./frontend/node_modules
+    volumes:
+      - name: cache
+        path: /cache
+
+  - name: install
+    image: node:16.9.1
+    depends_on: [ restore-cache ]
+    commands:
+      - cd ./frontend
+      - yarn install
+
+  - name: lint
+    image: node:16.9.1
+    depends_on: [install]
+    commands:
+      - cd ./frontend
+      - yarn lint
+
+  - name: build
+    image: node:16.9.1
+    depends_on: [install]
+    commands:
+      - cd ./frontend
+      - yarn build
+
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    depends_on: [install]
+    settings:
+      rebuild: true
+      mount:
+        - ./frontend/node_modules
+    volumes:
+      - name: cache
+        path: /cache
+
+volumes:
+  - name: cache
+    host:
+      path: /tmp/drone/cache/${DRONE_REPO}

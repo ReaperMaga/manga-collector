@@ -1,0 +1,47 @@
+{
+    "name": "next-ts-scaffold",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "mobx": "^6.6.0",
+        "mobx-persist-store": "^1.0.4",
+        "mobx-react-lite": "^3.2.1",
+        "next": "12.1.6",
+        "react": "18.1.0",
+        "react-dom": "18.1.0",
+        "react-icons": "^4.4.0"
+    },
+    "devDependencies": {
+        "@types/node": "17.0.35",
+        "@types/react": "18.0.9",
+        "@types/react-dom": "18.0.4",
+        "@typescript-eslint/eslint-plugin": "5.12.1",
+        "@typescript-eslint/parser": "^5.0.0",
+        "autoprefixer": "^10.4.7",
+        "eslint": "8.9.0",
+        "eslint-config-airbnb": "18.2.1",
+        "eslint-config-next": "12.1.6",
+        "eslint-config-prettier": "8.4.0",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-jsx-a11y": "6.5.1",
+        "eslint-plugin-prettier": "4.0.0",
+        "eslint-plugin-react": "7.27.0",
+        "eslint-plugin-react-hooks": "^4",
+        "eslint-plugin-security": "1.4.0",
+        "eslint-plugin-simple-import-sort": "7.0.0",
+        "eslint-plugin-sonarjs": "0.12.0",
+        "eslint-plugin-tailwind": "^0.2.1",
+        "husky": "^8.0.1",
+        "lint-staged": "^12.4.1",
+        "postcss": "^8.4.14",
+        "prettier": "2.5.1",
+        "tailwindcss": "^3.0.24",
+        "typescript": "4.6.4"
+    }
+}

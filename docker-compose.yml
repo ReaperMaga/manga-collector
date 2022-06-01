@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    environment:
+      - PASSWORD=dummy123
+    ports:
+      - "8099:8099"
+  frontend:
+    build:
+      context: frontend/app
+      dockerfile: Dockerfile
+    environment:
+      - BACKEND_URL=http://localhost:8099/
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./node_modules/:/usr/src/app/node_modules/"
