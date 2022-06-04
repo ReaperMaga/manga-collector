@@ -2,10 +2,14 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"mangacollector/database"
 	"mangacollector/resource"
 )
 
 func main() {
+
+	database.Connect()
+
 	app := fiber.New()
 
 	resources := loadResources()
@@ -14,7 +18,7 @@ func main() {
 		element.Init(app)
 	}
 
-	app.Listen(":3000")
+	app.Listen(":8991")
 }
 
 func loadResources() []resource.Resource {

@@ -3,8 +3,9 @@ import { ImSpinner } from 'react-icons/im';
 import { AiOutlineLock } from 'react-icons/ai';
 import Layout from '../layouts/Layout';
 
+import {toast} from "react-toastify"
+
 const Login: NextPageWithLayout = () => {
-    const [error, setError] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -13,7 +14,7 @@ const Login: NextPageWithLayout = () => {
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
-            setError('Wrong password');
+            toast.error('Wrong credentials');
         }, 700);
     };
 
@@ -30,8 +31,7 @@ const Login: NextPageWithLayout = () => {
                     <span className="text-lg text-gray-500">Please type in your password</span>
                 </div>
                 <div className="flex flex-col items-center pt-7">
-                    <span className="mb-3 text-red-600">{error}</span>
-                    <form className="flex flex-col space-y-10" onSubmit={login}>
+                    <form className="flex flex-col space-y-10 pt-2" onSubmit={login}>
                         <input
                             onChange={event => setPassword(event.target.value)}
                             type="password"
