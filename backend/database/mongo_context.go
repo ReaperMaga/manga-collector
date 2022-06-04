@@ -6,8 +6,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"log"
+	"mangacollector/config"
 	"mangacollector/errorhandler"
-	"os"
 )
 
 var MongoDatabase *mongo.Database
@@ -15,8 +15,8 @@ var MongoDatabase *mongo.Database
 func Connect() {
 	ctx := context.Background()
 
-	uri, success := os.LookupEnv("MONGODB_URI")
-	if !success {
+	uri := config.Container.MongoDBURI
+	if uri != "" {
 		uri = "mongodb://localhost:27017"
 	}
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))

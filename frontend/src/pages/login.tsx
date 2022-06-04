@@ -4,18 +4,36 @@ import { AiOutlineLock } from 'react-icons/ai';
 import Layout from '../layouts/Layout';
 
 import {toast} from "react-toastify"
+import userStore from "../store/UserStore";
+import {useRouter} from "next/router";
 
 const Login: NextPageWithLayout = () => {
+
+
+    const router = useRouter()
+
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
     const login = (event: FormEvent) => {
         event.preventDefault();
         setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            toast.error('Wrong credentials');
-        }, 700);
+        userStore.login(password, (success) => {
+            setTimeout(() => {
+                setLoading(false);
+                if(success) {
+                    router.push("/").then((s) => {
+                        setTimeout(() => {
+                            toast.success("Welcome back")
+                        }, 100)
+                    })
+                } else {
+                    toast.error('Wrong credentials');
+                }
+
+            }, 700);
+        })
+
     };
 
     return (

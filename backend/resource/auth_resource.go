@@ -2,9 +2,9 @@ package resource
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"mangacollector/config"
 	"mangacollector/errorhandler"
 	"mangacollector/model"
-	"os"
 )
 
 type AuthResource struct{}
@@ -15,7 +15,7 @@ type AuthBody struct {
 
 func (resource AuthResource) Init(app *fiber.App) {
 
-	envPassword := os.Getenv("PASSWORD")
+	envPassword := config.Container.Password
 
 	router := app.Group("/auth")
 	router.Post("/login", func(ctx *fiber.Ctx) error {

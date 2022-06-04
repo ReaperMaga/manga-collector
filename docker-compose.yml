@@ -5,17 +5,30 @@ services:
     build:
       context: backend
       dockerfile: Dockerfile
+    depends_on: [mongo]
+    networks:
+      - manga_collector
+    ports:
+      - "8991:8991"
     environment:
       - PASSWORD=dummy123
-    ports:
-      - "8099:8099"
+      - MONGODB_URI=mongodb://mongo:27017
   frontend:
     build:
       context: frontend/app
       dockerfile: Dockerfile
     environment:
-      - BACKEND_URL=http://localhost:8099/
+      - NEXT_PUBLIC_BACKEND_URL=http://localhost:8991/
     ports:
       - "3000:3000"
     volumes:
       - "./node_modules/:/usr/src/app/node_modules/"
+  mongo:
+    image: mongo
+    networks:
+      - manga_collector
+    volumes:
+      - "./data/:/data/db/"
+
+networks:
+  manga_collector:

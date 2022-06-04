@@ -9,6 +9,7 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "axios": "^0.27.2",
         "mobx": "^6.6.0",
         "mobx-persist-store": "^1.0.4",
         "mobx-react-lite": "^3.2.1",

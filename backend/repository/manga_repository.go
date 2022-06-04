@@ -13,10 +13,10 @@ var mangaCollection *mongo.Collection
 
 func NewMongoRepository() *MangaRepository {
 	collection := database.MongoDatabase.Collection("mangas")
-	obj := &MangaRepository{
+	repo := &MangaRepository{
 		Collection: collection,
 	}
-	return obj
+	return repo
 }
 
 type MangaRepository struct {

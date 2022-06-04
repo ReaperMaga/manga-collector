@@ -7,6 +7,7 @@ const NavbarLayout = ({ children }: { children: ReactNode }) => {
         <Layout>
             <Navbar />
             {children}
+
         </Layout>
     );
 };
