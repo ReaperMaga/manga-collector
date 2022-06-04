@@ -24,7 +24,7 @@ func main() {
 func loadResources() []resource.Resource {
 	var resources []resource.Resource
 
-	resources = append(resources, resource.MangaResource{})
+	resources = append(resources, resource.MangaResource{}, resource.AuthResource{})
 
 	return resources
 }
