@@ -13,6 +13,7 @@ var mangaCollection *mongo.Collection
 
 func NewMongoRepository() *MangaRepository {
 	collection := database.MongoDatabase.Collection("mangas")
+
 	repo := &MangaRepository{
 		Collection: collection,
 	}
@@ -52,7 +53,7 @@ func (repo MangaRepository) DeleteById(id string) {
 }
 
 func (repo MangaRepository) Update(manga *model.Manga) {
-	repo.Collection.UpdateOne(context.TODO(), bson.D{{"id", manga.ID}}, manga)
+	repo.Collection.ReplaceOne(context.TODO(), bson.D{{"id", manga.ID}}, manga)
 }
 
 func (repo MangaRepository) List() []model.Manga {
@@ -60,5 +61,8 @@ func (repo MangaRepository) List() []model.Manga {
 	cursor, err := repo.Collection.Find(context.TODO(), bson.D{{}})
 	errorhandler.Handle(err)
 	cursor.All(context.TODO(), &models)
+	if models == nil {
+		return []model.Manga{}
+	}
 	return models
 }

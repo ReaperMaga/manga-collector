@@ -1,17 +1,31 @@
 // @ts-ignore
 import { Reoverlay, ModalContainer } from "reoverlay";
 import NewMangaModal from "./NewMangaModal";
+import ConfirmModal from "./ConfirmModal";
+import UpdateMangaModal from "./UpdateMangaModal";
+import InfoMangaModal from "./InfoMangaModal";
 
-// Here you pass your modals to Reoverlay
 Reoverlay.config([
-    {
-        name: "NewMangaModal",
-        component: NewMangaModal
-    },
-])
+  {
+    name: "NewMangaModal",
+    component: NewMangaModal,
+  },
+  {
+    name: "UpdateMangaModal",
+    component: UpdateMangaModal,
+  },
+  {
+    name: "ConfirmModal",
+    component: ConfirmModal,
+  },
+  {
+    name: "InfoMangaModal",
+    component: InfoMangaModal,
+  },
+]);
 
 const ModalWrapper = () => {
-    return <ModalContainer />
-}
+  return <ModalContainer />;
+};
 
-export default ModalWrapper
+export default ModalWrapper;

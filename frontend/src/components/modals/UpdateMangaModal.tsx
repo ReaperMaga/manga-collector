@@ -5,49 +5,30 @@ import BaseModal from "./BaseModal";
 import BasicButton from "../buttons/BasicButton";
 import BasicInput from "../inputs/BasicInput";
 
-const NewMangaModal = ({
+const UpdateMangaModal = ({
   onConfirm,
+  manga,
 }: {
-  onConfirm: (data: NewMangaResponse) => void;
+  onConfirm: (updatedManga: Manga) => void;
+  manga: Manga;
 }) => {
   const closeModal = () => {
     Reoverlay.hideModal();
   };
 
-  const data: NewMangaResponse = {
-    id: "",
-    title: "",
-    url: "",
-    chapter: "",
-  };
+  const updatedManga: Manga = manga;
 
   return (
     <BaseModal>
-      <p className="mb-2 text-xl text-gray-300">Add new manga</p>
+      <p className="text-xl text-gray-300">Update manga</p>
+      <p className="mb-2 text-gray-400 text-md">{manga.title}</p>
       <hr />
       <div className="flex flex-col mt-7 space-y-5">
         <BasicInput
           type="text"
-          placeholder="Title"
-          onChange={(event) => {
-            data.title = event.target.value;
-            data.id = data.title
-              .replaceAll(/[`~!@#$%^&*()_|+\-=?;:'",.<>\\{}[\]/]/gi, "")
-              .replaceAll(" ", "_");
-          }}
-        />
-        <BasicInput
-          type="text"
-          placeholder="URL"
-          onChange={(event) => {
-            data.url = event.target.value;
-          }}
-        />
-        <BasicInput
-          type="text"
           placeholder="Chapter"
           onChange={(event) => {
-            data.chapter = event.target.value;
+            updatedManga.chapter = event.target.value;
           }}
         />
       </div>
@@ -58,14 +39,14 @@ const NewMangaModal = ({
         <BasicButton
           color="success"
           onClick={() => {
-            onConfirm(data);
+            onConfirm(updatedManga);
           }}
         >
-          Create
+          Update
         </BasicButton>
       </div>
     </BaseModal>
   );
 };
 
-export default NewMangaModal;
+export default UpdateMangaModal;

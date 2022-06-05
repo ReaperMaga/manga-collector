@@ -1,6 +1,7 @@
 package resource
 
 import (
+	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gofiber/fiber/v2"
 	"mangacollector/errorhandler"
@@ -34,6 +35,20 @@ func (resource MangaResource) Init(app *fiber.App) {
 		return ctx.JSON(result)
 	})
 
+	router.Delete("/:id", Auth, func(ctx *fiber.Ctx) error {
+		id := ctx.Params("id")
+		result := repository.FindById(id)
+
+		if result == nil {
+			return ctx.Status(404).JSON(model.ErrorResponse{
+				Code:    404,
+				Message: "Manga not found",
+			})
+		}
+		repository.DeleteById(id)
+		return ctx.JSON(result)
+	})
+
 	router.Put("/", Auth, func(ctx *fiber.Ctx) error {
 		body := &model.Manga{}
 		err := ctx.BodyParser(body)
@@ -41,6 +56,7 @@ func (resource MangaResource) Init(app *fiber.App) {
 
 		if repository.ExistsById(body.ID) {
 			repository.Update(body)
+			fmt.Println("Updated")
 		} else {
 			repository.Create(body)
 		}
@@ -67,9 +83,18 @@ func (resource MangaResource) Init(app *fiber.App) {
 
 func retrievePoster(url string) string {
 	resp, err := http.Get(url)
+	if err != nil {
+		return url
+	}
 	errorhandler.Handle(err)
 	doc, err := goquery.NewDocumentFromReader(resp.Body)
+	if err != nil {
+		return url
+	}
 	errorhandler.Handle(err)
-	attr, _ := doc.Find("meta[property='og:image']").Attr("content")
+	attr, exists := doc.Find("meta[property='og:image']").Attr("content")
+	if !exists {
+		return url
+	}
 	return attr
 }
