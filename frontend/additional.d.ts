@@ -7,7 +7,12 @@ type AppPropsWithLayout = import('next/app').AppProps & {
     Component: NextPageWithLayout;
 };
 
-/* 
-    add your custom types below here.
-    you can then reference them inside your Project
-*/
+interface Manga {
+    id: string
+    title: string
+    url: string
+    poster: string
+    chapter: string
+}
+
+

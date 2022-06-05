@@ -23,9 +23,7 @@ const Login: NextPageWithLayout = () => {
                 setLoading(false);
                 if(success) {
                     router.push("/").then((s) => {
-                        setTimeout(() => {
-                            toast.success("Welcome back")
-                        }, 100)
+                        toast.success("Successfully logged in")
                     })
                 } else {
                     toast.error('Wrong credentials');
@@ -37,7 +35,7 @@ const Login: NextPageWithLayout = () => {
     };
 
     return (
-        <div className="flex items-center justify-center w-full h-full">
+        <div className="flex items-center justify-center w-full h-screen">
             <div className="flex flex-col w-full py-8 sm:w-1/2 lg:w-1/3 xl:w-1/4 bg-zinc-800 rounded-md">
                 <div className="flex flex-col items-center w-full">
                     <span className="flex items-center text-2xl text-gray-400 space-x-2">

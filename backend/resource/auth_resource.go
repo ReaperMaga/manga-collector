@@ -15,7 +15,7 @@ type AuthBody struct {
 
 func (resource AuthResource) Init(app *fiber.App) {
 
-	envPassword := config.Container.Password
+	envPassword := config.GetContainer().Password
 
 	router := app.Group("/auth")
 	router.Post("/login", func(ctx *fiber.Ctx) error {

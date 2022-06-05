@@ -7,11 +7,11 @@ import (
 )
 
 func Auth(ctx *fiber.Ctx) error {
-	if config.Container.Password == "" {
+	if config.GetContainer().Password == "" {
 		return ctx.Next()
 	}
 	header := ctx.GetReqHeaders()["Authorization"]
-	if header == config.Container.Password {
+	if header == config.GetContainer().Password {
 		return ctx.Next()
 	}
 	return ctx.Status(401).JSON(model.ErrorResponse{

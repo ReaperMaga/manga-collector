@@ -4,6 +4,7 @@ import userStore from "../store/UserStore";
 import Loader from "../components/Loader";
 import {observer} from "mobx-react-lite";
 import {useRouter} from "next/router";
+import ModalWrapper from "../components/modals/ModalWrapper";
 
 const Layout = observer(({ children }: { children: ReactNode } ) => {
 
@@ -30,8 +31,9 @@ const Layout = observer(({ children }: { children: ReactNode } ) => {
     }
 
     return (
-        <div className="flex flex-col items-center w-screen h-screen bg-zinc-900">
+        <div className="flex flex-col items-center w-screen min-h-screen bg-zinc-900 overflow-hidden">
             <ToastWrapper />
+            <ModalWrapper />
             {children}
         </div>
     );

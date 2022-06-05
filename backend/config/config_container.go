@@ -1,6 +1,8 @@
 package config
 
-import "os"
+import (
+	"os"
+)
 
 type container struct {
 	MongoDBURI string
@@ -10,9 +12,13 @@ type container struct {
 var Container *container
 
 func InitConfiguration() *container {
-	Container := &container{
+	Container = &container{
 		MongoDBURI: os.Getenv("MONGODB_URI"),
-		Password:   os.Getenv("PASSWORD"),
+		Password:   "1234", //os.Getenv("PASSWORD"),
 	}
+	return Container
+}
+
+func GetContainer() *container {
 	return Container
 }
