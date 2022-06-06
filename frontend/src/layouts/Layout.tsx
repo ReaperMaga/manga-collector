@@ -5,6 +5,7 @@ import ToastWrapper from "../components/ToastWrapper";
 import userStore from "../store/UserStore";
 import Loader from "../components/Loader";
 import ModalWrapper from "../components/modals/ModalWrapper";
+import Head from "next/head";
 
 const Layout = observer(({ children }: { children: ReactNode }) => {
   const router = useRouter();
@@ -29,6 +30,9 @@ const Layout = observer(({ children }: { children: ReactNode }) => {
 
   return (
     <div className="flex flex-col items-center w-screen min-h-screen overflow-hidden bg-zinc-900">
+      <Head>
+        <title>Manga Collector</title>
+      </Head>
       <ToastWrapper />
       <ModalWrapper />
       {children}

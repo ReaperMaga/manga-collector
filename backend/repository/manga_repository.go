@@ -4,6 +4,7 @@ import (
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"mangacollector/database"
 	"mangacollector/errorhandler"
 	"mangacollector/model"
@@ -65,4 +66,29 @@ func (repo MangaRepository) List() []model.Manga {
 		return []model.Manga{}
 	}
 	return models
+}
+
+func (repo MangaRepository) ListPaged(page int, limit int) []model.Manga {
+
+	opt := &options.FindOptions{}
+
+	opt.SetSkip(int64((page - 1) * limit))
+	opt.SetLimit(int64(limit))
+
+	var models []model.Manga
+	cursor, err := repo.Collection.Find(context.TODO(), bson.D{{}}, opt)
+	errorhandler.Handle(err)
+	cursor.All(context.TODO(), &models)
+	if models == nil {
+		return []model.Manga{}
+	}
+	return models
+}
+
+func (repo MangaRepository) Count() int64 {
+	cursor, err := repo.Collection.CountDocuments(context.TODO(), bson.D{{}})
+	if err != nil {
+		return 0
+	}
+	return cursor
 }

@@ -3,7 +3,7 @@ import { Reoverlay, ModalContainer } from "reoverlay";
 import NewMangaModal from "./NewMangaModal";
 import ConfirmModal from "./ConfirmModal";
 import UpdateMangaModal from "./UpdateMangaModal";
-import InfoMangaModal from "./InfoMangaModal";
+import InfoMangaModal from "./info/InfoMangaModal";
 
 Reoverlay.config([
   {

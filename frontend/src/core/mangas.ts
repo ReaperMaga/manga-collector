@@ -8,6 +8,14 @@ export async function mangasGetAll() {
   return api.get("/mangas");
 }
 
+export async function mangasGetAllPaged(page: number, limit: number) {
+  return api.get(`/mangas?page=${page}&limit=${limit}`);
+}
+
+export async function mangasCount() {
+  return api.get(`/mangas/count`);
+}
+
 export async function mangasDelete(id: string) {
   return api.delete(`/mangas/${id}`);
 }

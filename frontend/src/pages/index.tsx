@@ -1,22 +1,52 @@
 // @ts-ignore
 import { Reoverlay } from "reoverlay";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { ImSpinner2 } from "react-icons/im";
 import NavbarLayout from "../layouts/NavbarLayout";
 import MangaCard from "../components/MangaCard";
-import { mangasCreate, mangasGetAll } from "../core/mangas";
-import {toast} from "react-toastify";
+import { mangasCount, mangasCreate, mangasGetAllPaged } from "../core/mangas";
+import BasicButton from "../components/buttons/BasicButton";
+
+const pageLimit = 4;
 
 const Home: NextPageWithLayout = () => {
   const [mangas, setMangas] = useState<Manga[]>([]);
+  const [page, setPage] = useState(1);
+  const [count, setCount] = useState(0);
+  const [loadMoreLoading, setLoadMoreLoading] = useState(false);
 
   const refreshMangas = () => {
-    mangasGetAll().then((request) => {
+    mangasGetAllPaged(page, pageLimit).then((request) => {
       setMangas(request.data);
     });
   };
 
+  const hasLoadMore = () => {
+    let maxPages = count / pageLimit;
+    if (maxPages < 0) {
+      maxPages = 0;
+    }
+    maxPages = Math.ceil(maxPages);
+    return page + 1 <= maxPages;
+  };
+
+  const loadMore = () => {
+    if (hasLoadMore()) {
+      setLoadMoreLoading(true)
+      mangasGetAllPaged(page + 1, pageLimit).then((request) => {
+        setMangas(mangas.concat(request.data));
+        setPage(page + 1);
+        setLoadMoreLoading(false)
+      });
+    }
+  };
+
   useEffect(() => {
-    refreshMangas();
+    mangasCount().then((request) => {
+      setCount(request.data);
+      refreshMangas();
+    });
   }, []);
 
   return (
@@ -41,21 +71,39 @@ const Home: NextPageWithLayout = () => {
       </div>
 
       {mangas.length > 0 ? (
-        <div className="w-full mt-8 grid grid-cols-4 gap-x-3 gap-y-5">
-          {mangas.map((value) => (
-            <MangaCard
-              key={value.id}
-              refreshMangas={refreshMangas}
-              manga={{
-                id: value.id,
-                title: value.title,
-                url: value.url,
-                poster: value.poster,
-                chapter: value.chapter,
-              }}
-            />
-          ))}
-        </div>
+        <>
+          <div className="w-full mt-8 grid grid-cols-4 gap-x-3 gap-y-5">
+            {mangas.map((value) => (
+              <MangaCard
+                key={value.id}
+                refreshMangas={refreshMangas}
+                manga={{
+                  id: value.id,
+                  title: value.title,
+                  url: value.url,
+                  poster: value.poster,
+                  chapter: value.chapter,
+                }}
+              />
+            ))}
+          </div>
+          {hasLoadMore() && (
+            <div className="flex justify-center w-full mt-7">
+              <BasicButton
+                color="primary"
+                onClick={() => loadMore()}
+                className="space-x-1"
+              >
+                {loadMoreLoading && (
+                  <span className="animate-spin">
+                    <ImSpinner2 />
+                  </span>
+                )}
+                <span>Load more</span>
+              </BasicButton>
+            </div>
+          )}
+        </>
       ) : (
         <div className="flex justify-center w-full text-3xl text-center text-gray-400 mt-28">
           <span>No mangas found :(</span>

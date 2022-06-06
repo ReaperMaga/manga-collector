@@ -1,13 +1,13 @@
 package resource
 
 import (
-	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gofiber/fiber/v2"
 	"mangacollector/errorhandler"
 	"mangacollector/model"
 	"mangacollector/repository"
 	"net/http"
+	"strconv"
 )
 
 type MangaResource struct{}
@@ -19,7 +19,23 @@ func (resource MangaResource) Init(app *fiber.App) {
 	router := app.Group("/mangas")
 
 	router.Get("/", Auth, func(ctx *fiber.Ctx) error {
+		pageStr, limitStr := ctx.Query("page"), ctx.Query("limit")
+		if pageStr != "" && limitStr != "" {
+			page, err := strconv.ParseInt(pageStr, 10, 32)
+			if err != nil {
+				page = 1
+			}
+			limit, err := strconv.ParseInt(limitStr, 10, 32)
+			if err != nil {
+				limit = 16
+			}
+			return ctx.JSON(repository.ListPaged(int(page), int(limit)))
+		}
 		return ctx.JSON(repository.List())
+	})
+
+	router.Get("/count", Auth, func(ctx *fiber.Ctx) error {
+		return ctx.JSON(repository.Count())
 	})
 
 	router.Get("/:id", Auth, func(ctx *fiber.Ctx) error {
@@ -56,7 +72,6 @@ func (resource MangaResource) Init(app *fiber.App) {
 
 		if repository.ExistsById(body.ID) {
 			repository.Update(body)
-			fmt.Println("Updated")
 		} else {
 			repository.Create(body)
 		}
@@ -74,14 +89,14 @@ func (resource MangaResource) Init(app *fiber.App) {
 				Message: "Manga already exists",
 			})
 		}
-		body.Poster = retrievePoster(body.Url)
+		body.Poster = RetrievePoster(body.Url)
 		repository.Create(body)
 		return ctx.JSON(body)
 	})
 
 }
 
-func retrievePoster(url string) string {
+func RetrievePoster(url string) string {
 	resp, err := http.Get(url)
 	if err != nil {
 		return url

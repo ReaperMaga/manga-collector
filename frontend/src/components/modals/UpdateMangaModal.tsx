@@ -26,9 +26,26 @@ const UpdateMangaModal = ({
       <div className="flex flex-col mt-7 space-y-5">
         <BasicInput
           type="text"
+          placeholder="Title"
+          defaultValue={manga.title}
+          onChange={(event) => {
+            updatedManga.title = event.target.value;
+          }}
+        />
+        <BasicInput
+          type="text"
           placeholder="Chapter"
+          defaultValue={manga.chapter}
           onChange={(event) => {
             updatedManga.chapter = event.target.value;
+          }}
+        />
+        <BasicInput
+          type="text"
+          placeholder="Poster"
+          defaultValue={manga.poster}
+          onChange={(event) => {
+            updatedManga.poster = event.target.value;
           }}
         />
       </div>

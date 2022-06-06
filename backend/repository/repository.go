@@ -9,4 +9,6 @@ type Repository interface {
 	ExistsById(id string) bool
 	Update(manga *model.Manga)
 	List() []model.Manga
+	ListPaged(page int, limit int) []model.Manga
+	Count() int64
 }
