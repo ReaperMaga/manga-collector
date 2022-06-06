@@ -15,7 +15,7 @@ services:
       - MONGODB_URI=mongodb://mongo:27017
   frontend:
     build:
-      context: frontend/app
+      context: frontend
       dockerfile: Dockerfile
     environment:
       - NEXT_PUBLIC_BACKEND_URL=http://localhost:8991/

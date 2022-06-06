@@ -3,7 +3,7 @@ import React from "react";
 import { Reoverlay } from "reoverlay";
 import BaseModal from "../BaseModal";
 import BasicButton from "../../buttons/BasicButton";
-import {InfoSpan, InfoSpanLink} from "./InfoSpan";
+import { InfoSpan, InfoSpanLink } from "./InfoSpan";
 
 const InfoMangaModal = ({ manga }: { manga: Manga }) => {
   const closeModal = () => {
@@ -18,7 +18,7 @@ const InfoMangaModal = ({ manga }: { manga: Manga }) => {
       <div className="flex flex-col text-gray-400 text-md mt-7 space-y-5">
         <InfoSpanLink label="URL" value={manga.url} />
         <InfoSpanLink label="Poster" value={manga.poster} />
-          <InfoSpan label="Chapter" value={manga.chapter} />
+        <InfoSpan label="Chapter" value={manga.chapter} />
       </div>
       <div className="flex items-center justify-end mt-8 space-x-3">
         <BasicButton color="danger" onClick={closeModal}>
@@ -28,9 +28,5 @@ const InfoMangaModal = ({ manga }: { manga: Manga }) => {
     </BaseModal>
   );
 };
-
-
-
-
 
 export default InfoMangaModal;

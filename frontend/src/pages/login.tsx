@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Layout from "../layouts/Layout";
 
 import userStore from "../store/UserStore";
-import {changePasswordHeader} from "../core/api";
+import { changePasswordHeader } from "../core/api";
 
 const Login: NextPageWithLayout = () => {
   const router = useRouter();
@@ -21,7 +21,7 @@ const Login: NextPageWithLayout = () => {
       setTimeout(() => {
         setLoading(false);
         if (success) {
-          changePasswordHeader(password)
+          changePasswordHeader(password);
           router.push("/").then(() => {
             toast.success("Successfully logged in");
           });

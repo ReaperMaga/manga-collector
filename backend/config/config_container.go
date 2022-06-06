@@ -14,7 +14,7 @@ var Container *container
 func InitConfiguration() *container {
 	Container = &container{
 		MongoDBURI: os.Getenv("MONGODB_URI"),
-		Password:   "1234", //os.Getenv("PASSWORD"),
+		Password:   os.Getenv("PASSWORD"),
 	}
 	return Container
 }

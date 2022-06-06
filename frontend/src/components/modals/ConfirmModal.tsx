@@ -1,6 +1,6 @@
 import React from "react";
 // @ts-ignore
-import {Reoverlay} from "reoverlay";
+import { Reoverlay } from "reoverlay";
 import BaseModal from "./BaseModal";
 import BasicButton from "../buttons/BasicButton";
 
@@ -8,7 +8,6 @@ const ConfirmModal = ({ onConfirm }: { onConfirm: () => void }) => {
   const closeModal = () => {
     Reoverlay.hideModal();
   };
-
 
   return (
     <BaseModal>
