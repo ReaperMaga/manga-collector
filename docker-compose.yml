@@ -21,8 +21,6 @@ services:
       - NEXT_PUBLIC_BACKEND_URL=http://localhost:8991/
     ports:
       - "3000:3000"
-    volumes:
-      - "./node_modules/:/usr/src/app/node_modules/"
   mongo:
     image: mongo
     networks:
