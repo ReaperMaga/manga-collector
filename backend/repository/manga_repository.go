@@ -15,6 +15,12 @@ var mangaCollection *mongo.Collection
 func NewMongoRepository() *MangaRepository {
 	collection := database.MongoDatabase.Collection("mangas")
 
+	index := mongo.IndexModel{
+		Keys:    bson.D{{"title", "text"}},
+		Options: nil,
+	}
+	collection.Indexes().CreateOne(context.TODO(), index)
+
 	repo := &MangaRepository{
 		Collection: collection,
 	}
@@ -71,6 +77,7 @@ func (repo MangaRepository) List() []model.Manga {
 func (repo MangaRepository) ListPaged(page int, limit int) []model.Manga {
 
 	opt := &options.FindOptions{}
+	opt.SetSort(bson.D{{"createdAt", -1}})
 
 	opt.SetSkip(int64((page - 1) * limit))
 	opt.SetLimit(int64(limit))
@@ -82,6 +89,17 @@ func (repo MangaRepository) ListPaged(page int, limit int) []model.Manga {
 	if models == nil {
 		return []model.Manga{}
 	}
+	return models
+}
+
+func (repo MangaRepository) Search(text string) []model.Manga {
+	var models []model.Manga
+	cursor, err := repo.Collection.Find(context.TODO(), bson.M{
+		"$text": bson.M{
+			"$search": text,
+		}})
+	errorhandler.Handle(err)
+	cursor.All(context.TODO(), &models)
 	return models
 }
 

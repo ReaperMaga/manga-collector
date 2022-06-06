@@ -1,5 +1,9 @@
 import api from "./api";
 
+export async function mangasSearch(manga: MangaSearch) {
+  return api.post("/mangas/search", manga);
+}
+
 export async function mangasCreate(manga: NewMangaResponse) {
   return api.post("/mangas", manga);
 }

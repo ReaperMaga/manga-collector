@@ -8,6 +8,7 @@ import (
 	"mangacollector/repository"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 type MangaResource struct{}
@@ -90,8 +91,16 @@ func (resource MangaResource) Init(app *fiber.App) {
 			})
 		}
 		body.Poster = RetrievePoster(body.Url)
+		body.CreatedAt = time.Now().Unix()
 		repository.Create(body)
 		return ctx.JSON(body)
+	})
+
+	router.Post("/search", Auth, func(ctx *fiber.Ctx) error {
+		body := &model.MangaSearch{}
+		err := ctx.BodyParser(body)
+		errorhandler.Handle(err)
+		return ctx.JSON(repository.Search(body.Title))
 	})
 
 }

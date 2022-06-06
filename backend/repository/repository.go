@@ -11,4 +11,5 @@ type Repository interface {
 	List() []model.Manga
 	ListPaged(page int, limit int) []model.Manga
 	Count() int64
+	Search(text string) []model.Manga
 }

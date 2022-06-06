@@ -3,49 +3,40 @@ import { Reoverlay } from "reoverlay";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { ImSpinner2 } from "react-icons/im";
+import { observer } from "mobx-react-lite";
 import NavbarLayout from "../layouts/NavbarLayout";
 import MangaCard from "../components/MangaCard";
 import { mangasCount, mangasCreate, mangasGetAllPaged } from "../core/mangas";
 import BasicButton from "../components/buttons/BasicButton";
+import mangaStore, { pageLimit } from "../store/MangaStore";
 
-const pageLimit = 4;
-
-const Home: NextPageWithLayout = () => {
-  const [mangas, setMangas] = useState<Manga[]>([]);
-  const [page, setPage] = useState(1);
-  const [count, setCount] = useState(0);
+const Home: NextPageWithLayout = observer(() => {
   const [loadMoreLoading, setLoadMoreLoading] = useState(false);
 
-  const refreshMangas = () => {
-    mangasGetAllPaged(page, pageLimit).then((request) => {
-      setMangas(request.data);
-    });
-  };
-
   const hasLoadMore = () => {
-    let maxPages = count / pageLimit;
+    let maxPages = mangaStore.count / pageLimit;
     if (maxPages < 0) {
       maxPages = 0;
     }
     maxPages = Math.ceil(maxPages);
-    return page + 1 <= maxPages;
+    return mangaStore.page + 1 <= maxPages;
   };
 
   const loadMore = () => {
     if (hasLoadMore()) {
-      setLoadMoreLoading(true)
-      mangasGetAllPaged(page + 1, pageLimit).then((request) => {
-        setMangas(mangas.concat(request.data));
-        setPage(page + 1);
-        setLoadMoreLoading(false)
+      setLoadMoreLoading(true);
+      mangasGetAllPaged(mangaStore.page + 1, pageLimit).then((request) => {
+        mangaStore.mangas = mangaStore.mangas.concat(request.data);
+        mangaStore.page += 1;
+        setLoadMoreLoading(false);
       });
     }
   };
 
   useEffect(() => {
     mangasCount().then((request) => {
-      setCount(request.data);
-      refreshMangas();
+      mangaStore.count = request.data;
+      mangaStore.resetMangas();
     });
   }, []);
 
@@ -59,7 +50,7 @@ const Home: NextPageWithLayout = () => {
                 mangasCreate(data).then(() => {
                   Reoverlay.hideModal();
                   toast.success("Successfully added a new manga");
-                  refreshMangas();
+                  mangaStore.resetMangas();
                 });
               },
             });
@@ -70,25 +61,25 @@ const Home: NextPageWithLayout = () => {
         </button>
       </div>
 
-      {mangas.length > 0 ? (
+      {mangaStore.mangas.length > 0 ? (
         <>
           <div className="w-full mt-8 grid grid-cols-4 gap-x-3 gap-y-5">
-            {mangas.map((value) => (
+            {mangaStore.mangas.map((value) => (
               <MangaCard
                 key={value.id}
-                refreshMangas={refreshMangas}
                 manga={{
                   id: value.id,
                   title: value.title,
                   url: value.url,
                   poster: value.poster,
                   chapter: value.chapter,
+                  createdAt: value.createdAt,
                 }}
               />
             ))}
           </div>
           {hasLoadMore() && (
-            <div className="flex justify-center w-full mt-7">
+            <div className="flex justify-center w-full mt-7 mb-7">
               <BasicButton
                 color="primary"
                 onClick={() => loadMore()}
@@ -111,7 +102,7 @@ const Home: NextPageWithLayout = () => {
       )}
     </div>
   );
-};
+});
 
 Home.getLayout = function getLayout(page: JSX.Element) {
   return <NavbarLayout>{page}</NavbarLayout>;

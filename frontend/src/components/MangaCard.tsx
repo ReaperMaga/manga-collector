@@ -5,13 +5,13 @@ import { Reoverlay } from "reoverlay";
 import { toast } from "react-toastify";
 import BasicButton from "./buttons/BasicButton";
 import { mangasDelete, mangasUpdate } from "../core/mangas";
+import mangaStore from "../store/MangaStore";
 
 interface MangaCardProps {
   manga: Manga;
-  refreshMangas: () => void;
 }
 
-const MangaCard = ({ manga, refreshMangas }: MangaCardProps) => {
+const MangaCard = ({ manga }: MangaCardProps) => {
   const [hovering, setHovering] = useState(false);
 
   return (
@@ -59,9 +59,7 @@ const MangaCard = ({ manga, refreshMangas }: MangaCardProps) => {
                   mangasUpdate(updatedManga)
                     .then(() => {
                       Reoverlay.hideModal();
-                      if (refreshMangas) {
-                        refreshMangas();
-                      }
+                      mangaStore.resetMangas();
                       toast.success("Successfully updated manga");
                     })
                     .catch(() => {
@@ -83,9 +81,7 @@ const MangaCard = ({ manga, refreshMangas }: MangaCardProps) => {
                   mangasDelete(manga.id)
                     .then(() => {
                       Reoverlay.hideModal();
-                      if (refreshMangas) {
-                        refreshMangas();
-                      }
+                      mangaStore.resetMangas();
                       toast.warning("Successfully deleted manga");
                     })
                     .catch(() => {

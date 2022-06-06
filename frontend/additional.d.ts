@@ -13,6 +13,7 @@ interface Manga {
   url: string;
   poster: string;
   chapter: string;
+  createdAt: number;
 }
 
 interface NewMangaResponse {
@@ -22,3 +23,6 @@ interface NewMangaResponse {
   chapter: string;
 }
 
+interface MangaSearch {
+  title: string;
+}
