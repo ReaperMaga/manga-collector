@@ -63,7 +63,7 @@ const Home: NextPageWithLayout = observer(() => {
 
       {mangaStore.mangas.length > 0 ? (
         <>
-          <div className="w-full mt-8 grid grid-cols-4 gap-x-3 gap-y-5">
+          <div className="w-full mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-3 gap-y-5">
             {mangaStore.mangas.map((value) => (
               <MangaCard
                 key={value.id}
