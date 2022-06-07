@@ -6,26 +6,26 @@ import UpdateMangaModal from "./UpdateMangaModal";
 import InfoMangaModal from "./info/InfoMangaModal";
 
 Reoverlay.config([
-  {
-    name: "NewMangaModal",
-    component: NewMangaModal,
-  },
-  {
-    name: "UpdateMangaModal",
-    component: UpdateMangaModal,
-  },
-  {
-    name: "ConfirmModal",
-    component: ConfirmModal,
-  },
-  {
-    name: "InfoMangaModal",
-    component: InfoMangaModal,
-  },
+    {
+        name: "NewMangaModal",
+        component: NewMangaModal,
+    },
+    {
+        name: "UpdateMangaModal",
+        component: UpdateMangaModal,
+    },
+    {
+        name: "ConfirmModal",
+        component: ConfirmModal,
+    },
+    {
+        name: "InfoMangaModal",
+        component: InfoMangaModal,
+    },
 ]);
 
 const ModalWrapper = () => {
-  return <ModalContainer />;
+    return <ModalContainer />;
 };
 
 export default ModalWrapper;
